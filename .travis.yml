@@ -10,6 +10,7 @@ install:
 # Execute linting and unit tests before running the main playbook.
 before_script:
   - "find . -name '*.yml' | xargs yamllint -s"
+  - "export ANSIBLE_HOST_KEY_CHECKING=False"
 
 # Perform playbook testing with mock CI inputs.
 script:
