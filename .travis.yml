@@ -1,17 +1,20 @@
 ---
-language: python
+# Define the language and version used. The CI system will create
+# a Python virtualenv for this particular version for the test.
+language: "python"
 python:
   - "2.7"
 
-# Install python packages for ansible and linters.
+# Install python packages for ansible and linters first.
 install:
   - "pip install -r requirements.txt"
 
-# Execute linting and unit tests before running the main playbook.
+# Execute linting to catch minor errors before running the main playbook.
+# If you have a directory hierarchy, use this style instead:
+# "find . -name '*.yml' | xargs yamllint -s"
 before_script:
-  - "find . -name '*.yml' | xargs yamllint -s"
-  - "export ANSIBLE_HOST_KEY_CHECKING=False"
+  - "yamllint -s *.yml"
 
-# Perform playbook testing with mock CI inputs.
+# Perform playbook testing with on a pre-existing virtual router.
 script:
-  - "ansible-playbook test_playbook.yml -i hosts.yml"
+  - "ansible-playbook test.yml"

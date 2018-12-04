@@ -1,0 +1,87 @@
+---
+# This is the first play, but rather than define a new play
+# and corresponding set of tasks, we import the main NTP
+# playbook and pass in some custom NTP servers instead. Using
+# static inputs is a good way to "stub out" our variables file
+# for the purpose of testing the playbook's logic.
+- name: "PLAY 1: Import original playbook with mock NTP servers"
+  import_playbook: "ntp_config.yml"
+  vars:
+    ntp_server1: "203.0.113.1"
+    ntp_server2: "203.0.113.2"
+
+# This is the second play. Its purpose is to ensure the
+# first play (playbook import) worked correctly. The general
+# flow is to ensure the NTP configuration was correctly applied,
+# remove the NTP configuration, then ensure the NTP configuration
+# was correctly removed. Removal isn't critical, but without it
+- name: "PLAY 2: Log into routers to test playbook"
+  hosts: "all"
+  tasks:
+
+    # This is the first task. It collects information from the
+    # router using the "ios_command" module, which is used for
+    # non-configuration (exec shell) commands. The command issued
+    # returns a table showing each NTP server configured.
+    # The output from this command is registered in the
+    # variable called "ntp_associations".
+    - name: "TASK 1: Gather mock NTP state data after enabling NTP"
+      ios_command:
+        commands: "show ntp associations"
+      register: "ntp_associations"
+
+    # This is the second task. Now that we've registered the router's
+    # feedback, we can test it using basic string membership/containment
+    # operations. We must ensure that our two mock NTP servers are
+    # present in this output. The text output is contained in a subfield
+    # called "stdout", and the 0 index is used to represent that this is
+    # the output associated with the first (and only) command issued.
+    - name: "TASK 2: Check that mock NTP servers are present"
+      assert:
+        that:
+          - "'203.0.113.1' in ntp_associations.stdout[0]"
+          - "'203.0.113.2' in ntp_associations.stdout[0]"
+        msg: "Missing some NTP data:\n{{ ntp_associations.stdout[0] }}"
+
+    # This is the third task. At this point, we've verified that the
+    # original NTP playbook works, but we should clean up after ourselves.
+    # Note that if we wanted to create a more robust and complex CI system,
+    # these steps would be unnecessary, since the disposal nature of
+    # virtual routers would indicate that simply deleting the router
+    # and spinning up a new one for a future CI test would be fine. In our
+    # case, the virtual router is longer living, and we want to prepare it
+    # for future tests by removing the mock servers.
+    - name: "TASK 3: Remove mock NTP servers"
+      ios_config:
+        commands:
+          - "no ntp server 203.0.113.1"
+          - "no ntp server 203.0.113.2"
+
+    # This is the fourth task and inserts a short pause using the
+    # "pause" module. This allows the router to fully disable its
+    # NTP logic for the two recently removed servers. Waiting helps
+    # avoid a false negative in future tasks by ensuring the router
+    # does not incorrectly report that these NTP servers still exist.
+    - name: "TASK 4: Wait 1 seconds"
+      pause:
+        seconds: 1
+
+    # This is the fifth task and is a copy of the second task. We
+    # need to update our ntp_associations variable and test to
+    # ensure NTP was removed in a future task.
+    - name: "TASK 5: Gather mock NTP data after disabling NTP"
+      ios_command:
+        commands: "show ntp associations"
+      register: "ntp_associations"
+
+    # This is the sixth task and checks the registered output from the
+    # previous task to ensure the mock NTP servers were not seen
+    # in the NTP association state data. If they were, then something
+    # went wrong with the NTP configuration removal in task 4.
+    - name: "TASK 6: Check mock NTP data is absent"
+      assert:
+        that:
+          - "'203.0.113.1' not in ntp_associations.stdout[0]"
+          - "'203.0.113.2' not in ntp_associations.stdout[0]"
+        msg: "Saw some NTP data:\n{{ ntp_associations.stdout[0] }}"
+...

@@ -1,0 +1,61 @@
+---
+# This is a play, which is an element in the playbook.
+# A playbook is a list of plays, and each play runs on
+# a subset of hosts in the inventory. This specific play
+# runs on all inventory devices. If there was a diverse set
+# of hosts, such as routers, firewalls, and wireless LAN
+# controllers, each one may have different NTP configuration
+# syntax and could use different plays.
+- name: "PLAY 1: Manage NTP configuration"
+  hosts: "all"
+  tasks:
+
+    # This is the first task, and each play generally contains
+    # a list of tasks. The task is a set of actions to execute
+    # against each host specified within the play. This task
+    # checks the data input quality, ensuring that the two
+    # NTP servers are defined and are valid IPv4 addresses.
+    # This task uses the "assert" module as a way of integrating
+    # testing within a playbook.
+    - name: "TASK 1: Validate NTP server IP addresses"
+      assert:
+        that:
+          - "ntp_server1 is defined"
+          - "ntp_server2 is defined"
+          - "ntp_server1 | ipv4 == ntp_server1"
+          - "ntp_server2 | ipv4 == ntp_server2"
+        msg: "Malformed input; please check ntp_server values"
+
+    # This is the second task. It logs into the Cisco IOS or
+    # IOS-XE device using the "ios_config" module. The commands
+    # specified within that module are passed to the router, and
+    # the NTP server values are substituted using {{ }} syntax.
+    # The previous task verified that these servers were valid,
+    # so the router CLI should not report any errors.
+    # The "register" directive tells Ansible to "save" the
+    # feedback from the module, which provides us a list of which
+    # commands needed to be added (between 0 and 4 in this case),
+    # whether there were any failures, and more.
+    - name: "TASK 2: Apply NTP updates"
+      ios_config:
+        commands:
+          - "ntp authenticate"
+          - "ntp logging"
+          - "ntp server {{ ntp_server1 }}"
+          - "ntp server {{ ntp_server2 }}"
+      register: "ntp_updates"
+
+    # This is the third task. If any new changes were configured
+    # on the router (for example, "ntp logging" had been accidentally
+    # disabled before running the playbook), those delta commands
+    # are printed to stdout so the user sees them. This only occurs
+    # if there are changes due to the "when" directive. If the "when"
+    # evaluates to false, the task is skipped. The task will only
+    # be false when the registered variable from the previous task
+    # does not define the "updates" subfield, which indicates no
+    # changes were needed.
+    - name: "TASK 3: Print changes if NTP config changed"
+      debug:
+        var: "ntp_updates.updates"
+      when: "ntp_updates.updates is defined"
+...
