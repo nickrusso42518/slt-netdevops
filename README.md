@@ -39,7 +39,8 @@ $ tree
 └── test.yml
 ```
 
-Ensure you have Python 2.7 (not Python 3) installed along with pip.
+Ensure you have Python 2.7 or Python 3.6 installed along with pip. Feel
+free to use Python `virtualenv` if you'd like to test multiple versions.
 
 > Visit https://www.python.org/downloads/ to download Python.
 
@@ -49,16 +50,16 @@ or
 
 `sudo easy_install pip`
 
-You can install the specific packages (really just Ansible and a YAML linter)
-using the  following command:
+You can install the required packages (really just Ansible and a YAML linter)
+using the following command:
 
 `pip install -r requirements.txt`
 
 You should have access to the `ansible` command on the correct version.
 
 ```
-$ ansible --version
-ansible 2.6.2
+$ ansible --version | head -1
+ansible 2.7.7
 ```
 
 ## Usage
@@ -68,4 +69,4 @@ teaching the fundamentals of Network DevOps, not Ansible as a specific tool.
     `ntp_server` variables using valid IPv4 addresses.
   * To run the playbook, run `ansible-playbook ntp_config.yml` from the shell.
   * To test the playbook, run `ansible-playbook test.yml` from the shell. This
-    mimics whta Travis CI does each time code is committed to Github.
+    mimics what Travis CI does each time code is committed to Github.
