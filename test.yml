@@ -53,7 +53,7 @@
     # for future tests by removing the mock servers.
     - name: "TASK 3: Remove mock NTP servers"
       ios_config:
-        commands:
+        lines:
           - "no ntp server 203.0.113.1"
           - "no ntp server 203.0.113.2"
 

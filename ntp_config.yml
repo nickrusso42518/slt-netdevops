@@ -17,7 +17,7 @@
     # NTP servers are defined and are valid IPv4 addresses.
     # This task uses the "assert" module as a way of integrating
     # testing within a playbook.
-    - name: "TASK 1: Validate NTP server IP addresses"
+    - name: "TASK 0: Validate NTP server IP addresses"
       assert:
         that:
           - "ntp_server1 is defined"
@@ -27,7 +27,7 @@
         msg: "Malformed input; please check ntp_server values"
 
     # This is the second task. It logs into the Cisco IOS or
-    # IOS-XE device using the "ios_config" module. The commands
+    # IOS-XE device using the "ios_config" module. The 'lines'
     # specified within that module are passed to the router, and
     # the NTP server values are substituted using {{ }} syntax.
     # The previous task verified that these servers were valid,
@@ -36,9 +36,9 @@
     # feedback from the module, which provides us a list of which
     # commands needed to be added (between 0 and 4 in this case),
     # whether there were any failures, and more.
-    - name: "TASK 2: Apply NTP updates"
+    - name: "TASK 1: Apply NTP updates"
       ios_config:
-        commands:
+        lines:
           - "ntp authenticate"
           - "ntp logging"
           - "ntp server {{ ntp_server1 }}"
@@ -54,7 +54,7 @@
     # be false when the registered variable from the previous task
     # does not define the "updates" subfield, which indicates no
     # changes were needed.
-    - name: "TASK 3: Print changes if NTP config changed"
+    - name: "TASK 2: Print changes if NTP config changed"
       debug:
         var: "ntp_updates.updates"
       when: "ntp_updates.updates is defined"
