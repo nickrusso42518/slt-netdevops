@@ -39,7 +39,7 @@ $ tree
 └── test.yml
 ```
 
-Ensure you have Python 2.7 or Python 3.6 installed along with pip. Feel
+Ensure you have Python 3.6 or newer installed along with pip. Feel
 free to use Python `virtualenv` if you'd like to test multiple versions.
 
 > Visit https://www.python.org/downloads/ to download Python.

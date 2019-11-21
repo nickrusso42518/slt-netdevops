@@ -3,7 +3,7 @@
 # a Python virtualenv for each Python version to test it.
 language: "python"
 python:
-  - "2.7"
+  # - "2.7" deprecated
   - "3.6"
 
 # Install python packages for ansible and linters first.
