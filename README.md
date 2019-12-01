@@ -58,8 +58,16 @@ using the following command:
 You should have access to the `ansible` command on the correct version.
 
 ```
-$ ansible --version | head -1
-ansible 2.7.7
+$ ansible --version
+ansible 2.8.7
+  config file = /home/ec2-user/racc/ansible.cfg
+  configured module search path = ['/home/ec2-user/.ansible/plugins/modules',
+    '/usr/share/ansible/plugins/modules']
+  ansible python module location =
+    /home/ec2-user/environments/racc287/lib/python3.7/site-packages/ansible
+  executable location = /home/ec2-user/environments/racc287/bin/ansible
+  python version = 3.7.3 (default, Aug 27 2019, 16:56:53)
+    [GCC 4.8.5 20150623 (Red Hat 4.8.5-36)]
 ```
 
 ## Usage
