@@ -14,6 +14,7 @@ Linux platforms should be used for the Ansible control/development machine.
 > Twitter:  @nickrusso42518
 
   * [Download Instructions](#download-instructions)
+  * [Lab Setup](#lab-setup)
   * [Usage](#usage)
 
 ## Download Instructions
@@ -69,6 +70,18 @@ ansible 2.8.7
   python version = 3.7.3 (default, Aug 27 2019, 16:56:53)
     [GCC 4.8.5 20150623 (Red Hat 4.8.5-36)]
 ```
+
+## Lab Setup
+If you decide to actively follow along during the course, I recommend
+that you deploy (2) Virtual Cisco IOS or IOS-XE devices. You can
+use CSR1000v virtual routers in the cloud, CSR1000v VMware virtual
+machines via `.ova` files, simulated environments via EVE-NG, GNS3,
+or CML, or perhaps even a real hardware. The only prior configuration
+that these devices require is a privilege 15 username and SSH access.
+So long as your Ansible control machine can SSH into these devices,
+you can follow along with course. For continuous integration to work,
+these network devices need to be accessible over the Internet. For that
+reason, I recommend using public clouds such as AWS, Azure, or GCP.
 
 ## Usage
 This repository is kept minimal since the main point of this course is
