@@ -1,0 +1,5 @@
+# Ansible collections to install using galaxy
+---
+collections:
+  - "cisco.ios"
+...

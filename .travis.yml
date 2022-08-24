@@ -10,12 +10,11 @@ install:
   - "pip install -r requirements.txt"
 
 # Execute linting to catch minor errors before running the main playbook.
-# Find all YAML files in the project and lint them in strict mode.
 before_script:
-  - "find . -name '*.yml' | xargs yamllint -s"
+  - "ansible-lint -vv"
 
 # Perform playbook testing with on pre-existing virtual routers.
 # A more complex pipeline might deploy on-demand routers ahead of time
 # using Terraform rather than assume they already exist.
 script:
-  - "ansible-playbook test.yml"
+  - "ansible-playbook playbook/test.yml"
