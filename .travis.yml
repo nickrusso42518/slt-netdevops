@@ -3,18 +3,25 @@
 # a Python virtualenv for each Python version to test it.
 language: "python"
 python:
-  - "3.7.3"
+  - "3.7"
 
-# Install python packages for ansible and linters first.
+# Install python packages for Ansible and linters first.
+# This includes upgrading pip to avoid any install/wheel problems.
+# Also, install Ansible collections to interact with devices.
 install:
+  - "pip install --upgrade pip"
   - "pip install -r requirements.txt"
+  - "ansible-galaxy collection install -r requirements.yml"
 
 # Execute linting to catch minor errors before running the main playbook.
+# Then, run the playbook in "check" mode. If either one fails, abandon
+# testing.
 before_script:
-  - "ansible-lint -vv"
+  - "find . -name '*.yml' | xargs yamllint --strict"
+  - "ansible-playbook --check ntp_config.yml"
 
 # Perform playbook testing with on pre-existing virtual routers.
 # A more complex pipeline might deploy on-demand routers ahead of time
-# using Terraform rather than assume they already exist.
+# rather than assume they already exist.
 script:
-  - "ansible-playbook playbook/test.yml"
+  - "ansible-playbook test.yml"

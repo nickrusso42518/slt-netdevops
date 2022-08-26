@@ -18,7 +18,7 @@
     # This task uses the "assert" module as a way of integrating
     # testing within a playbook.
     - name: "TASK 0: Validate NTP server IP addresses"
-      assert:
+      ansible.builtin.assert:
         that:
           - "ntp_server1 is defined"
           - "ntp_server2 is defined"
@@ -37,7 +37,7 @@
     # commands needed to be added (between 0 and 4 in this case),
     # whether there were any failures, and more.
     - name: "TASK 1: Apply NTP updates"
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - "ntp authenticate"
           - "ntp logging"
@@ -55,7 +55,7 @@
     # does not define the "updates" subfield, which indicates no
     # changes were needed.
     - name: "TASK 2: Print changes if NTP config changed"
-      debug:
+      ansible.builtin.debug:
         var: "ntp_updates.updates"
       when: "ntp_updates.updates is defined"
 ...
