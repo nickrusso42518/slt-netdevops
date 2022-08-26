@@ -1,6 +1,6 @@
 # ansible==3.4.0
 ansible-base==2.10.11
 jinja2
-paramiko
+ansible-pylibssh
 netaddr
 yamllint
