@@ -3,7 +3,7 @@
 # a Python virtualenv for each Python version to test it.
 language: "python"
 python:
-  - "3.7"
+  - "3.7.3"
 
 # Install python packages for Ansible and linters first.
 # This includes upgrading pip to avoid any install/wheel problems.
