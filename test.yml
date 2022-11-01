@@ -26,7 +26,7 @@
     # The output from this command is registered in the
     # variable called "ntp_associations".
     - name: "TASK 1: Gather mock NTP state data after enabling NTP"
-      ios_command:
+      cisco.ios.ios_command:
         commands: "show ntp associations"
       register: "ntp_associations"
 
@@ -37,7 +37,7 @@
     # called "stdout", and the 0 index is used to represent that this is
     # the output associated with the first (and only) command issued.
     - name: "TASK 2: Ensure that mock NTP servers are present"
-      assert:
+      ansible.builtin.assert:
         that:
           - "'203.0.113.1' in ntp_associations.stdout[0]"
           - "'203.0.113.2' in ntp_associations.stdout[0]"
@@ -52,7 +52,7 @@
     # case, the virtual router is longer living, and we want to prepare it
     # for future tests by removing the mock servers.
     - name: "TASK 3: Remove mock NTP servers"
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - "no ntp server 203.0.113.1"
           - "no ntp server 203.0.113.2"
@@ -63,14 +63,14 @@
     # avoid a false negative in future tasks by ensuring the router
     # does not incorrectly report that these NTP servers still exist.
     - name: "TASK 4: Wait for NTP database to clear"
-      pause:
+      ansible.builtin.pause:
         seconds: 1
 
     # This is the fifth task and is a copy of the second task. We
     # need to update our ntp_associations variable and test to
     # ensure NTP was removed in a future task.
     - name: "TASK 5: Gather mock NTP data after disabling NTP"
-      ios_command:
+      cisco.ios.ios_command:
         commands: "show ntp associations"
       register: "ntp_associations"
 
@@ -79,7 +79,7 @@
     # in the NTP association state data. If they were, then something
     # went wrong with the NTP configuration removal in task 4.
     - name: "TASK 6: Ensure mock NTP data is absent"
-      assert:
+      ansible.builtin.assert:
         that:
           - "'203.0.113.1' not in ntp_associations.stdout[0]"
           - "'203.0.113.2' not in ntp_associations.stdout[0]"

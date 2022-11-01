@@ -1,6 +1,6 @@
 [![Build Status](
-https://travis-ci.org/nickrusso42518/slt-netdevops.svg?branch=master)](
-https://travis-ci.org/nickrusso42518/slt-netdevops)
+https://app.travis-ci.com/nickrusso42518/slt-netdevops.svg?branch=master)](
+https://app.travis-ci.com/nickrusso42518/slt-netdevops)
 
 # Safari Live Training - Network DevOps
 Source code for the training course. Please contact me with any questions.
@@ -29,15 +29,16 @@ HTTPS: `git clone https://github.com/nickrusso42518/slt-netdevops`
 After cloning, you should see the following file system structure:
 
 ```
-$ tree
+$ tree --charset=ascii
 .
-├── ansible.cfg
-├── hosts.yml
-├── LICENSE
-├── ntp_config.yml
-├── README.md
-├── requirements.txt
-└── test.yml
+|-- ansible.cfg
+|-- hosts.yml
+|-- LICENSE
+|-- ntp_config.yml
+|-- README.md
+|-- requirements.txt
+|-- requirements.yml
+`-- test.yml
 ```
 
 Ensure you have Python 3.6 or newer installed along with pip. Feel
@@ -60,13 +61,13 @@ You should have access to the `ansible` command on the correct version.
 
 ```
 $ ansible --version
-ansible 2.8.7
-  config file = /home/ec2-user/racc/ansible.cfg
+ansible 2.10.11
+  config file = /home/ec2-user/slt-netdevops/ansible.cfg
   configured module search path = ['/home/ec2-user/.ansible/plugins/modules',
     '/usr/share/ansible/plugins/modules']
   ansible python module location =
-    /home/ec2-user/environments/racc287/lib/python3.7/site-packages/ansible
-  executable location = /home/ec2-user/environments/racc287/bin/ansible
+    /home/ec2-user/environments/val/lib/python3.7/site-packages/ansible
+  executable location = /home/ec2-user/environments/val/bin/ansible
   python version = 3.7.3 (default, Aug 27 2019, 16:56:53)
     [GCC 4.8.5 20150623 (Red Hat 4.8.5-36)]
 ```
