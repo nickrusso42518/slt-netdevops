@@ -39,8 +39,8 @@
     - name: "TASK 1: Apply NTP updates"
       cisco.ios.ios_config:
         lines:
-          - "ntp authenticate"
           - "ntp logging"
+          - "ntp source GigabitEthernet1"
           - "ntp server {{ ntp_server1 }}"
           - "ntp server {{ ntp_server2 }}"
       register: "ntp_updates"
