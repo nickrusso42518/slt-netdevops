@@ -5,7 +5,7 @@
 dist: "jammy"
 language: "python"
 python:
-  - "3.10.12"
+  - "3.10.5"
 
 # Install python packages for Ansible and linters first.
 # This includes upgrading pip to avoid any install/wheel problems.
