@@ -1,9 +1,11 @@
 ---
 # Define the language and versions used. The CI system will create
-# a Python virtualenv for each Python version to test it.
+# a Python virtualenv for each Python version to test it. It's also
+# helpful to identify the base OS (jammy is Ubuntu 22.04) to use.
+dist: "jammy"
 language: "python"
 python:
-  - "3.7.3"
+  - "3.10.12"
 
 # Install python packages for Ansible and linters first.
 # This includes upgrading pip to avoid any install/wheel problems.
@@ -17,7 +19,7 @@ install:
 # Then, run the playbook in "check" mode. If either one fails, abandon
 # testing.
 before_script:
-  - "find . -name '*.yml' | xargs yamllint --strict"
+  - "yamllint --strict *.yml"
   - "ansible-playbook --check ntp_config.yml"
 
 # Perform playbook testing with on pre-existing virtual routers.

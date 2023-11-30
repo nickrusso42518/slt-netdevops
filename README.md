@@ -41,7 +41,7 @@ $ tree --charset=ascii
 `-- test.yml
 ```
 
-Ensure you have Python 3.6 or newer installed along with pip. Feel
+Ensure you have Python 3.10 or newer installed along with pip. Feel
 free to use Python `virtualenv` if you'd like to test multiple versions.
 
 > Visit https://www.python.org/downloads/ to download Python.
@@ -61,21 +61,23 @@ You should have access to the `ansible` command on the correct version.
 
 ```
 $ ansible --version
-ansible 2.10.11
-  config file = /home/ec2-user/slt-netdevops/ansible.cfg
-  configured module search path = ['/home/ec2-user/.ansible/plugins/modules',
-    '/usr/share/ansible/plugins/modules']
-  ansible python module location =
-    /home/ec2-user/environments/val/lib/python3.7/site-packages/ansible
-  executable location = /home/ec2-user/environments/val/bin/ansible
-  python version = 3.7.3 (default, Aug 27 2019, 16:56:53)
-    [GCC 4.8.5 20150623 (Red Hat 4.8.5-36)]
+ansible [core 2.16.0]
+  config file = /home/ubuntu/slt-netdevops/ansible.cfg
+  configured module search path =
+    ['/home/ubuntu/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/ubuntu/environments/dec1a/lib/python3.10/site-packages/ansible
+  ansible collection location = /home/ubuntu/.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/ubuntu/environments/dec1a/bin/ansible
+  python version = 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0]
+    (/home/ubuntu/environments/dec1a/bin/python)
+  jinja version = 3.1.2
+  libyaml = True
 ```
 
 ## Lab Setup
 If you decide to actively follow along during the course, I recommend
 that you deploy (2) Virtual Cisco IOS or IOS-XE devices. You can
-use CSR1000v virtual routers in the cloud, CSR1000v VMware virtual
+use CSR1000v/Cat8000k virtual routers in the cloud, CSR1000v VMware virtual
 machines via `.ova` files, simulated environments via EVE-NG, GNS3,
 or CML, or perhaps even a real hardware. The only prior configuration
 that these devices require is a privilege 15 username and SSH access.
