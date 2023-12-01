@@ -94,3 +94,13 @@ teaching the fundamentals of Network DevOps, not Ansible as a specific tool.
   * To run the playbook, run `ansible-playbook ntp_config.yml` from the shell.
   * To test the playbook, run `ansible-playbook test.yml` from the shell. This
     mimics what Travis CI does each time code is committed to Github.
+
+If you are connecting to devices that that only support legacy SSH options,
+try adding this configuration to `~/.ssh/config`:
+
+```
+Host *
+        KexAlgorithms +diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
+        HostKeyAlgorithms=+ssh-dss,ssh-rsa
+        PubkeyAcceptedKeyTypes=+ssh-rsa
+```
